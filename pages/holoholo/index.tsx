@@ -11,6 +11,7 @@ import { PublicTrails, ParksCcHnl, ParksStatewide } from "../../util/models";
 import styles from "../../styles/holoholo.module.scss";
 
 const MAPBOX_ACCESS_TOKEN = process.env.MAPBOX_TOKEN;
+const MAPBOX_API_URL = process.env.MAPBOX_API_URL;
 const MAPSTYLE = process.env.MAPSTYLE;
 
 interface IViewport {
@@ -151,13 +152,15 @@ const HoloholoMap = ({ dataPublicTrails, dataParksCcHnl, dataParksStatewide }: I
 				pickingRadius={5}
 				initialViewState={viewState}
 				controller={true}
-				getTooltip={(node: any) => node.object && (node.object.properties.NAME)}>
+				getTooltip={(node: any) => node.object && (node.object.properties.NAME)}
+			>
 				<StaticMap
 					width={800}
 					height={800}
 					reuseMaps={true}
 					preventStyleDiffing={true}
 					mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
+					mapboxApiUrl={MAPBOX_API_URL}
 					mapStyle={MAPSTYLE}
 				/>
 			</DeckGL>
