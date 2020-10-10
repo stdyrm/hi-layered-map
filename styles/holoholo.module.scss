@@ -2,9 +2,14 @@
 	position: absolute;
 	z-index: 2;
 	margin: 1em;
-	height: 100px;
+	height: 110px;
 	width: 150px;
-
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	a {
+		margin-bottom: .5em;
+	}
 	button {
 		margin-bottom: .3em;
 		color: #fff;

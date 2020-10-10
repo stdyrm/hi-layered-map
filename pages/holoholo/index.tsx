@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Link from "next/link";
 import { GetStaticProps } from "next";
 import DeckGL from "@deck.gl/react";
 import { StaticMap } from "react-map-gl";
@@ -154,10 +155,13 @@ const HoloholoMap = ({ dataPublicTrails, dataParksCcHnl, dataParksStatewide }: I
 					reuseMaps={true}
 					preventStyleDiffing={true}
 					mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
-					mapStyle={process.env.MAPSTYLE ? process.env.MAPSTYLE : 'mapbox://styles/mapbox/light-v8'}
+					mapStyle={process.env.MAPSTYLE}
 				/>
 			</DeckGL>
 			<div className={styles.controlPanel}>
+				<Link href="/">
+					<a>Home</a>
+				</Link>
 				<button
 					value="publicTrails"
 					onClick={handleLayerVisibility}
