@@ -10,6 +10,9 @@ import { PublicTrails, ParksCcHnl, ParksStatewide } from "../../util/models";
 
 import styles from "../../styles/holoholo.module.scss";
 
+const MAPBOX_ACCESS_TOKEN = process.env.MAPBOX_TOKEN;
+const MAPSTYLE = process.env.MAPSTYLE;
+
 interface IViewport {
 	width: string | number;
 	height: string | number;
@@ -89,7 +92,7 @@ const HoloholoMap = ({ dataPublicTrails, dataParksCcHnl, dataParksStatewide }: I
 		parksCcHnl: true,
 		parksStatewide: true
 	});
-	
+
 	const handleLayerVisibility = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		const element = e.currentTarget as HTMLInputElement;
 		const layer:string = element.value;
@@ -151,11 +154,11 @@ const HoloholoMap = ({ dataPublicTrails, dataParksCcHnl, dataParksStatewide }: I
 				getTooltip={(node: any) => node.object && (node.object.properties.NAME)}>
 				<StaticMap
 					width={800}
-					height={600}
+					height={800}
 					reuseMaps={true}
 					preventStyleDiffing={true}
-					mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
-					mapStyle={process.env.MAPSTYLE}
+					mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
+					mapStyle={MAPSTYLE}
 				/>
 			</DeckGL>
 			<div className={styles.controlPanel}>
