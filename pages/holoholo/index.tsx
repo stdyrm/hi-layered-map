@@ -149,6 +149,9 @@ const HoloholoMap = ({ dataPublicTrails, dataParksCcHnl, dataParksStatewide }: I
 
 	return (
 		<>
+			<Head>
+				<link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+			</Head>
 			<DeckGL
 				layers={layers}
 				pickingRadius={5}
@@ -160,10 +163,8 @@ const HoloholoMap = ({ dataPublicTrails, dataParksCcHnl, dataParksStatewide }: I
 					width={800}
 					height={800}
 					reuseMaps={true}
-					preventStyleDiffing={true}
 					mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
-					mapboxApiUrl={MAPBOX_API_URL}
-					mapStyle={MAPSTYLE}
+					mapStyle={MAPSTYLE ? MAPSTYLE : "mapbox://styles/mapbox/light-v9"}
 				/>
 			</DeckGL>
 			<div className={styles.controlPanel}>
