@@ -1,9 +1,11 @@
 import { useState } from "react";
 import Link from "next/link";
+import Head from "next/head";
 import { GetStaticProps } from "next";
 import DeckGL from "@deck.gl/react";
 import { StaticMap } from "react-map-gl";
 import { GeoJsonLayer } from "@deck.gl/layers";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 import { handleDatabase, handleLocalData } from "../../lib";
 import { PublicTrails, ParksCcHnl, ParksStatewide } from "../../util/models";
