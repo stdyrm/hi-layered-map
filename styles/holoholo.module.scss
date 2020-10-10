@@ -1,0 +1,16 @@
+.controlPanel {
+	position: absolute;
+	z-index: 2;
+	margin: 1em;
+	height: 100px;
+	width: 150px;
+
+	button {
+		margin-bottom: .3em;
+		color: #fff;
+	}
+	button:hover {
+		opacity: 0.8;
+		cursor: pointer;
+	}
+}
