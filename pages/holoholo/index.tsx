@@ -11,7 +11,6 @@ import { handleDatabase, handleLocalData } from "../../lib";
 import { PublicTrails, ParksCcHnl, ParksStatewide } from "../../util/models";
 
 import styles from "../../styles/holoholo.module.scss";
-console.log(process.env.NEXT_PUBLIC_MAPBOX_TOKEN);
 const MAPBOX_ACCESS_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 const MAPSTYLE = process.env.NEXT_PUBLIC_MAPSTYLE;
 
