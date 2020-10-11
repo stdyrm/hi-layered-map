@@ -33,4 +33,8 @@ When you have your environment variables set, you can run:
 3. Park polygons statewide
 * EPSG:3750 format
 
-The handleAPIData function calls an API to retrieve ArcGIS data, converts it to GeoJSON format, then converts the geographic coordinates to EPSG:4326 (Equirectangular Projection) to return lat/lon values. Optionally, you can provide "<FILENAME>.json" a second parameter to the handleData function, and then function will write a JSON file to the /public/data directory.
+### Retrieving data
+There are three ways to retrieve data. Typically you will use local JSON files provided in the public/data folder, but there are also options to use a MongoDB Atlas database or getting the raw data from the API. 
+1. handleLocalData - local JSON files can be found in public/data folder.
+2. handleDatabase - Retrieves GeoJSON data from a MongoDB database. *Requires MongoDB Atlas account.
+3. handleAPIData - Calls an API to retrieve ArcGIS data, converts it to GeoJSON format, then converts the geographic coordinates to EPSG:4326 (Equirectangular Projection) to return lat/lon values. Optionally, you can provide "<FILENAME>.json" a second parameter to the handleData function, and then function will write a JSON file to the /public/data directory. *Requires API URLS (currently hidden/stored as environment variables).

@@ -1,18 +1,18 @@
 import { useState } from "react";
 import Link from "next/link";
+import Head from "next/head";
 import { GetStaticProps } from "next";
 import DeckGL from "@deck.gl/react";
 import { StaticMap } from "react-map-gl";
 import { GeoJsonLayer } from "@deck.gl/layers";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 import { handleDatabase, handleLocalData } from "../../lib";
 import { PublicTrails, ParksCcHnl, ParksStatewide } from "../../util/models";
 
 import styles from "../../styles/holoholo.module.scss";
-
-const MAPBOX_ACCESS_TOKEN = process.env.MAPBOX_TOKEN;
-const MAPBOX_API_URL = process.env.MAPBOX_API_URL;
-const MAPSTYLE = process.env.MAPSTYLE;
+const MAPBOX_ACCESS_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+const MAPSTYLE = process.env.NEXT_PUBLIC_MAPSTYLE;
 
 interface IViewport {
 	width: string | number;
@@ -147,6 +147,9 @@ const HoloholoMap = ({ dataPublicTrails, dataParksCcHnl, dataParksStatewide }: I
 
 	return (
 		<>
+			<Head>
+				<link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+			</Head>
 			<DeckGL
 				layers={layers}
 				pickingRadius={5}
@@ -158,10 +161,8 @@ const HoloholoMap = ({ dataPublicTrails, dataParksCcHnl, dataParksStatewide }: I
 					width={800}
 					height={800}
 					reuseMaps={true}
-					preventStyleDiffing={true}
 					mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
-					mapboxApiUrl={MAPBOX_API_URL}
-					mapStyle={MAPSTYLE}
+					mapStyle={MAPSTYLE ? MAPSTYLE : "mapbox://styles/mapbox/light-v9"}
 				/>
 			</DeckGL>
 			<div className={styles.controlPanel}>
