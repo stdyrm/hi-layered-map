@@ -41,7 +41,7 @@ const ControlPanel: React.FC = ({ children }) => {
 					</Flex>
 				</DrawerContent>
 			</Drawer>
-			<Box textAlign="right">
+			<Box textAlign="left">
 				<IconButton
 					icon={GrMenu}
 					ref={btnRef}
