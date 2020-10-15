@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Link from "next/link";
 import Head from "next/head";
 import { GetStaticProps } from "next";
 import DeckGL from "@deck.gl/react";
@@ -10,7 +9,10 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { handleDatabase, handleLocalData } from "../../lib";
 import { PublicTrails, ParksCcHnl, ParksStatewide } from "../../util/models";
 
-import styles from "../../styles/holoholo.module.scss";
+// components
+import { Text } from "@chakra-ui/core";
+import { ControlPanel, ControlPanelButton } from "../../components/map";
+
 const MAPBOX_ACCESS_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 const MAPSTYLE = process.env.NEXT_PUBLIC_MAPSTYLE;
 
@@ -20,13 +22,15 @@ interface IViewport {
 	latitude: number;
 	longitude: number;
 	zoom: number;
+	pitch: number;
+	bearing: number;
 }
 
 interface IFeature {
 	type: string;
 	geometry: {
 		type: string;
-		coordinates: Array<any>;
+		coordinates: [];
 	};
 }
 
@@ -45,12 +49,14 @@ interface IVisible {
 	[key: string]: boolean;
 }
 
-const viewport = {
-	width: "90vw",
-	height: "70vh",
+const INITIAL_VIEW_STATE = {
+	width: "772px",
+	height: "501px",
 	latitude: 21.3069,
 	longitude: -157.8583,
 	zoom: 7,
+	pitch: 0,
+	bearing: 0,
 };
 
 const getStaticProps: GetStaticProps = async () => {
@@ -90,12 +96,12 @@ const getStaticProps: GetStaticProps = async () => {
 	};
 };
 
-const HoloholoMap = ({
+const HoloholoMap: React.FC<IProps> = ({
 	dataPublicTrails,
 	dataParksCcHnl,
 	dataParksStatewide,
-}: IProps) => {
-	const [viewState, setViewState] = useState<IViewport>(viewport);
+}) => {
+	const [viewState] = useState<IViewport>(INITIAL_VIEW_STATE);
 	const [visible, setVisible] = useState<IVisible>({
 		publicTrails: true,
 		parksCcHnl: true,
@@ -106,7 +112,7 @@ const HoloholoMap = ({
 		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
 	) => {
 		const element = e.currentTarget as HTMLInputElement;
-		const layer: string = element.value;
+		const layer: string = element.id;
 		setVisible((prevState) => ({ ...prevState, [layer]: !prevState[layer] }));
 	};
 
@@ -163,6 +169,7 @@ const HoloholoMap = ({
 					rel="stylesheet"
 				/>
 			</Head>
+			<div style={{ backgroundColor: "red" }}></div>
 			<DeckGL
 				layers={layers}
 				pickingRadius={5}
@@ -171,37 +178,35 @@ const HoloholoMap = ({
 				getTooltip={(node: any) => node.object && node.object.properties.NAME}
 			>
 				<StaticMap
-					width={800}
+					width="100%"
 					height={800}
 					reuseMaps={true}
 					mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
 					mapStyle={MAPSTYLE ? MAPSTYLE : "mapbox://styles/mapbox/light-v9"}
 				/>
 			</DeckGL>
-			<div className={styles.controlPanel}>
-				<Link href="/">
-					<a>Home</a>
-				</Link>
-				<button
-					value="publicTrails"
+			<ControlPanel>
+				<Text fontSize="xl">Map Layers</Text>
+				<ControlPanelButton
+					id="publicTrails"
 					onClick={handleLayerVisibility}
 					style={{
 						backgroundColor: visible.publicTrails ? "rgb(78,147,122)" : "gray",
 					}}
 				>
 					Public trails
-				</button>
-				<button
-					value="parksCcHnl"
+				</ControlPanelButton>
+				<ControlPanelButton
+					id="parksCcHnl"
 					onClick={handleLayerVisibility}
 					style={{
 						backgroundColor: visible.parksCcHnl ? "rgb(127,44,203)" : "gray",
 					}}
 				>
 					Parks (C&C HNL)
-				</button>
-				<button
-					value="parksStatewide"
+				</ControlPanelButton>
+				<ControlPanelButton
+					id="parksStatewide"
 					onClick={handleLayerVisibility}
 					style={{
 						backgroundColor: visible.parksStatewide
@@ -210,8 +215,8 @@ const HoloholoMap = ({
 					}}
 				>
 					Parks (statewide)
-				</button>
-			</div>
+				</ControlPanelButton>
+			</ControlPanel>
 		</>
 	);
 };
