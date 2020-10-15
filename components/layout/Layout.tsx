@@ -1,25 +1,27 @@
 import Link from "next/link";
-import { ThemeProvider } from "emotion-theming";
+import { Box, Heading, Text } from "@chakra-ui/core";
+
 import Header from "./Header";
-import THEME from "../../styles/theme";
 
 const Layout: React.FC = ({ children }) => {
 	return (
-		<ThemeProvider theme={THEME}>
+		<Box>
 			<Header>
 				<Link href="/">
 					<a>
-						<h1>HI Maps</h1>
+						<Heading>HI Maps</Heading>
 					</a>
 				</Link>
 				<nav>
 					<Link href="/holoholo">
-						<a>Holoholo App</a>
+						<a>
+							<Text>Holoholo App</Text>
+						</a>
 					</Link>
 				</nav>
 			</Header>
-			{children}
-		</ThemeProvider>
+			<Box mx={4}>{children}</Box>
+		</Box>
 	);
 };
 

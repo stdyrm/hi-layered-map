@@ -1,4 +1,4 @@
-const esriUtils = require("@esri/arcgis-to-geojson-utils");
+import esriUtils from "@esri/arcgis-to-geojson-utils";
 import proj4 from "proj4";
 
 interface IConvertEpsg {
@@ -22,14 +22,14 @@ interface IConvertCoordinates {
 }
 
 const convertCoordinatesLineString: IConvertCoordinates = (geometry, epsgFrom, epsgTo) => {
-	let converted = geometry.coordinates.map((coord: number[]) => {
+	const converted = geometry.coordinates.map((coord: number[]) => {
 		return proj4(epsgFrom, epsgTo, coord);
 	});
 	return converted;
 };
 
 const convertCoordinatesPolygon: IConvertCoordinates = (geometry, epsgFrom, epsgTo) => {
-	let converted = geometry.coordinates.map((polygon) => {
+	const converted = geometry.coordinates.map((polygon) => {
 		return polygon.map((coord: number[]) => {
 			return proj4(epsgFrom, epsgTo, coord);
 		});
@@ -38,7 +38,7 @@ const convertCoordinatesPolygon: IConvertCoordinates = (geometry, epsgFrom, epsg
 };
 
 const convertCoordinatesMultiPolygon: IConvertCoordinates = (geometry, epsgFrom, epsgTo) => {
-	let converted = geometry.coordinates.map((polygonGroup) => {
+	const converted = geometry.coordinates.map((polygonGroup) => {
 		return polygonGroup.map((polygon: []) => {
 			return polygon.map((coord: number[]) => {
 				return proj4(epsgFrom, epsgTo, coord);
@@ -63,7 +63,7 @@ const convertEpsgType: IConvertEpsg = async (geojson, epsgFrom, epsgTo) => {
 	}
 
 	geojson.features.map((feat) => {
-		for (let i in feat.properties) {
+		for (const i in feat.properties) {
 			feat.properties.NAME = feat.properties[i];
 		}
 		
