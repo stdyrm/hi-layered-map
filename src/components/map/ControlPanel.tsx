@@ -2,7 +2,6 @@ import { useRef } from "react";
 import Link from "next/link";
 import {
 	Box,
-	Button,
 	Drawer,
 	DrawerContent,
 	DrawerHeader,
@@ -37,19 +36,12 @@ const ControlPanel: React.FC = ({ children }) => {
 							</a>
 						</Link>
 					</DrawerHeader>
-					<Flex
-						justify="space-evenly"
-						direction="column"
-						mt={4}
-						px={4}
-					>
+					<Flex justify="space-evenly" direction="column" mt={4} px={4}>
 						{children}
 					</Flex>
 				</DrawerContent>
 			</Drawer>
-			<Box
-				textAlign="right"
-			>
+			<Box textAlign="right">
 				<IconButton
 					icon={GrMenu}
 					ref={btnRef}

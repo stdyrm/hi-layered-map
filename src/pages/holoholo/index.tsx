@@ -26,7 +26,7 @@ interface IViewport {
 	bearing: number;
 }
 
-interface IFeature {
+export interface IFeature {
 	type: string;
 	geometry: {
 		type: string;
