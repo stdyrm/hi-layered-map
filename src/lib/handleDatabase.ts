@@ -1,14 +1,14 @@
 import connectDB from "../util/db/database";
 import mongoose from "mongoose";
 
-const handleDatabase = async (model: mongoose.Model<mongoose.Document, {}>) => {
+const handleDatabase = async (model: mongoose.Model<mongoose.Document>): Promise<string | undefined> => {
 	connectDB();
 	try {
 		console.log("Fetching data ...");
 		const data = await model.find({});
 		return JSON.stringify({
 			type: "FeatureCollection",
-			features: data
+			features: data,
 		});
 	} catch (err) {
 		console.log(err);

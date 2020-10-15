@@ -7,14 +7,14 @@ interface IProps {
 	style?: CSSProperties | undefined;
 }
 
-const ControlPanelButton: React.FC<IProps> = ({id, onClick, style, children}) => {
+const ControlPanelButton: React.FC<IProps> = ({
+	id,
+	onClick,
+	style,
+	children,
+}) => {
 	return (
-		<Button
-			id={id}
-			onClick={onClick}
-			style={style}
-			mt={2}
-		>
+		<Button id={id} onClick={onClick} style={style} mt={2}>
 			{children}
 		</Button>
 	);
