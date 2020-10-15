@@ -15,13 +15,11 @@ const Home: React.FC = () => {
 				<h1>HI Maps</h1>
 			</Box>
 			<Grid templateColumns="repeat(4, 1fr)" gap={6}>
-				<Button color="white" bg="gray.700">
 					<Link href="/holoholo" passHref>
-						<a>
+						<Button color="white" bg="gray.700" as="a">
 							<Text fontSize="xl">Holoholo</Text>
-						</a>
+						</Button>
 					</Link>
-				</Button>
 			</Grid>
 		</Layout>
 	);
