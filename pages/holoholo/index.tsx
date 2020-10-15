@@ -36,8 +36,8 @@ interface IFeatureCollection {
 }
 
 interface IProps {
-	dataPublicTrails:IFeatureCollection;
-	dataParksCcHnl:IFeatureCollection;
+	dataPublicTrails: IFeatureCollection;
+	dataParksCcHnl: IFeatureCollection;
 	dataParksStatewide: IFeatureCollection;
 }
 
@@ -54,9 +54,9 @@ const viewport = {
 };
 
 const getStaticProps: GetStaticProps = async () => {
-	let dataPublicTrails:IFeatureCollection;
-	let dataParksCcHnl:IFeatureCollection;
-	let dataParksStatewide:IFeatureCollection;
+	let dataPublicTrails: IFeatureCollection;
+	let dataParksCcHnl: IFeatureCollection;
+	let dataParksStatewide: IFeatureCollection;
 
 	// There are local GeoJSON files in the /public/data directory, so you don't need to call APIs for park/public trail data.
 	// If you need to re-create these files,  you can import and call the handleAPIData function, with"<FILENAME>.json" as an optional second parameter
@@ -68,9 +68,13 @@ const getStaticProps: GetStaticProps = async () => {
 
 	// get data from database with local file as fallback
 	if (process.env.ATLAS_URI) {
-		dataPublicTrails = JSON.parse(await handleDatabase(PublicTrails) as string);
-		dataParksCcHnl = JSON.parse(await handleDatabase(ParksCcHnl) as string);
-		dataParksStatewide = JSON.parse(await handleDatabase(ParksStatewide) as string);
+		dataPublicTrails = JSON.parse(
+			(await handleDatabase(PublicTrails)) as string
+		);
+		dataParksCcHnl = JSON.parse((await handleDatabase(ParksCcHnl)) as string);
+		dataParksStatewide = JSON.parse(
+			(await handleDatabase(ParksStatewide)) as string
+		);
 	} else {
 		dataPublicTrails = JSON.parse(handleLocalData("PUBLIC_TRAILS.json"));
 		dataParksCcHnl = JSON.parse(handleLocalData("PARKS_CC_HNL.json"));
@@ -81,23 +85,29 @@ const getStaticProps: GetStaticProps = async () => {
 		props: {
 			dataPublicTrails,
 			dataParksCcHnl,
-			dataParksStatewide
-		}
+			dataParksStatewide,
+		},
 	};
 };
 
-const HoloholoMap = ({ dataPublicTrails, dataParksCcHnl, dataParksStatewide }: IProps) => {
+const HoloholoMap = ({
+	dataPublicTrails,
+	dataParksCcHnl,
+	dataParksStatewide,
+}: IProps) => {
 	const [viewState, setViewState] = useState<IViewport>(viewport);
 	const [visible, setVisible] = useState<IVisible>({
 		publicTrails: true,
 		parksCcHnl: true,
-		parksStatewide: true
+		parksStatewide: true,
 	});
 
-	const handleLayerVisibility = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+	const handleLayerVisibility = (
+		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+	) => {
 		const element = e.currentTarget as HTMLInputElement;
-		const layer:string = element.value;
-		setVisible(prevState => ({ ...prevState, [layer]: !prevState[layer] }));
+		const layer: string = element.value;
+		setVisible((prevState) => ({ ...prevState, [layer]: !prevState[layer] }));
 	};
 
 	const layers = [
@@ -110,10 +120,10 @@ const HoloholoMap = ({ dataPublicTrails, dataParksCcHnl, dataParksStatewide }: I
 			stroked: false,
 			lineWidthScale: 20,
 			lineWidthMinPixels: 2,
-			getLineColor: [78,147,122],
+			getLineColor: [78, 147, 122],
 			opacity: 0.5,
 			getRadius: 100,
-			getLineWidth: 1
+			getLineWidth: 1,
 		}),
 		new GeoJsonLayer({
 			id: "layer-parks-cc-hnl",
@@ -124,10 +134,10 @@ const HoloholoMap = ({ dataPublicTrails, dataParksCcHnl, dataParksStatewide }: I
 			stroked: false,
 			lineWidthScale: 20,
 			lineWidthMinPixels: 2,
-			getFillColor: [127,44,203],
+			getFillColor: [127, 44, 203],
 			opacity: 0.5,
 			getRadius: 100,
-			getLineWidth: 1
+			getLineWidth: 1,
 		}),
 		new GeoJsonLayer({
 			id: "layer-parks-statewide",
@@ -138,24 +148,27 @@ const HoloholoMap = ({ dataPublicTrails, dataParksCcHnl, dataParksStatewide }: I
 			stroked: false,
 			lineWidthScale: 20,
 			lineWidthMinPixels: 2,
-			getFillColor: [221,114,48],
+			getFillColor: [221, 114, 48],
 			opacity: 0.5,
 			getRadius: 100,
-			getLineWidth: 1
-		})
+			getLineWidth: 1,
+		}),
 	];
 
 	return (
 		<>
 			<Head>
-				<link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+				<link
+					href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css"
+					rel="stylesheet"
+				/>
 			</Head>
 			<DeckGL
 				layers={layers}
 				pickingRadius={5}
 				initialViewState={viewState}
 				controller={true}
-				getTooltip={(node: any) => node.object && (node.object.properties.NAME)}
+				getTooltip={(node: any) => node.object && node.object.properties.NAME}
 			>
 				<StaticMap
 					width={800}
@@ -172,21 +185,29 @@ const HoloholoMap = ({ dataPublicTrails, dataParksCcHnl, dataParksStatewide }: I
 				<button
 					value="publicTrails"
 					onClick={handleLayerVisibility}
-					style={{ backgroundColor: visible.publicTrails ? "rgb(78,147,122)" : "gray" }}
+					style={{
+						backgroundColor: visible.publicTrails ? "rgb(78,147,122)" : "gray",
+					}}
 				>
 					Public trails
 				</button>
 				<button
 					value="parksCcHnl"
 					onClick={handleLayerVisibility}
-					style={{ backgroundColor: visible.parksCcHnl ? "rgb(127,44,203)" : "gray" }}
+					style={{
+						backgroundColor: visible.parksCcHnl ? "rgb(127,44,203)" : "gray",
+					}}
 				>
 					Parks (C&C HNL)
 				</button>
 				<button
 					value="parksStatewide"
 					onClick={handleLayerVisibility}
-					style={{ backgroundColor: visible.parksStatewide ? "rgb(221,114,48)" : "gray" }}
+					style={{
+						backgroundColor: visible.parksStatewide
+							? "rgb(221,114,48)"
+							: "gray",
+					}}
 				>
 					Parks (statewide)
 				</button>
